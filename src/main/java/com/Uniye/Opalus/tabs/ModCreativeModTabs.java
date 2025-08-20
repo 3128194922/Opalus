@@ -1,6 +1,9 @@
 package com.Uniye.Opalus.tabs;
 
-import com.Uniye.Opalus.Items.ModItems;
+import com.Uniye.Opalus.Items.NETHEREXPItems;
+import com.Uniye.Opalus.Items.NETHEREXPblocks;
+import com.Uniye.Opalus.Items.QUARKItems;
+import com.Uniye.Opalus.Items.SAVAGE_AND_RAVAGEItems;
 import com.Uniye.Opalus.Opalus;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -16,14 +19,26 @@ public class ModCreativeModTabs {
             DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Opalus.MODID);
 
 
-
     public static final RegistryObject<CreativeModeTab> OPALUS_TAB = CREATIVE_MODE_TABS.register("opalus_tab",
             () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(Items.ACACIA_LEAVES))
                     .title(Component.translatable("creativetab.opalus_tab"))
                     .displayItems((parameters, output) -> {
                         // 添加您的物品到创造标签页
-                        output.accept(ModItems.GRIEFER_SPEAR.get());
+                        if(Opalus.SAVAGE_AND_RAVAGE)
+                        {
+                            output.accept(SAVAGE_AND_RAVAGEItems.GRIEFER_SPEAR.get());
+                        }
+                        if(Opalus.NETHEREXP)
+                        {
+                            output.accept(NETHEREXPItems.STUFFED_SORROWSQUASH.get());
+                            output.accept(NETHEREXPItems.ZOMBIE_BRAIN.get());
+                            output.accept(NETHEREXPItems.STUFFED_SORROWSQUASH_BLOCK.get());
+                        }
+                        if(Opalus.QUARK)
+                        {
+                            output.accept(QUARKItems.CODEX.get());
+                        }
                     })
                     .build()
     );
