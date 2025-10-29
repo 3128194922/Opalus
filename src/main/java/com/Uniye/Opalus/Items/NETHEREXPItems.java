@@ -1,10 +1,10 @@
 package com.Uniye.Opalus.Items;
 
 import com.Uniye.Opalus.Opalus;
-import com.teamabnormals.blueprint.core.util.registry.ItemSubRegistryHelper;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Tiers;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import vectorwing.farmersdelight.common.FoodValues;
@@ -26,4 +26,14 @@ public class NETHEREXPItems {
 
     public static final RegistryObject<Item> STUFFED_SORROWSQUASH = ITEMS.register("stuffed_sorrowsquash",
             () -> new ConsumableItem(bowlFoodItem(FoodValues.STUFFED_PUMPKIN), true));
+
+    public static final RegistryObject<Item> CHAINSWORD = ITEMS.register("chainsword",
+            () -> new ChianswordItem(
+                    Tiers.IRON, // 材质，可换成 Tiers.DIAMOND / Tiers.NETHERITE
+                    7,          // 攻击伤害
+                    -2.4F,      // 攻击速度（越小越慢，普通剑是 -2.4F）
+                    new Item.Properties()
+                            .stacksTo(1)   // 只能单持
+                            .durability(500) // 耐久度
+            ));
 }

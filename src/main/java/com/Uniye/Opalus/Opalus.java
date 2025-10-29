@@ -4,6 +4,7 @@ import com.Uniye.Opalus.Items.NETHEREXPItems;
 import com.Uniye.Opalus.Items.NETHEREXPblocks;
 import com.Uniye.Opalus.Items.QUARKItems;
 import com.Uniye.Opalus.Items.SAVAGE_AND_RAVAGEItems;
+import com.Uniye.Opalus.event.CodexAnvilHandler;
 import com.Uniye.Opalus.tabs.ModCreativeModTabs;
 import com.mojang.logging.LogUtils;
 import com.teamabnormals.blueprint.core.util.registry.RegistryHelper;
@@ -47,6 +48,7 @@ public class Opalus
         if(QUARK)
         {
             QUARKItems.ITEMS.register(modEventBus);
+            CodexAnvilHandler.register();
         }
         ModCreativeModTabs.register(modEventBus);
 

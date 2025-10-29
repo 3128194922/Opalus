@@ -1,0 +1,13 @@
+{
+  "item.opalus.codex": "死灵之书(节选)",
+  "item.opalus.codex.name_with_enchant": "已誊写%s",
+  "item.opalus.codex.tooltip.enchant": "+I %s (Max. %s)",
+  "item.opalus.codex.tooltip.empty1": "伪典中翻涌着被遗忘的力量",
+  "item.opalus.codex.tooltip.empty2": "惟有将古卷抄录其中才能将其唤醒",
+  "item.opalus.griefer_spear":"破坏者刺雷",
+  "item.opalus.zombie_brain": "僵尸大脑",
+  "item.opalus.stuffed_sorrowsquash": "填脑南瓜",
+  "item.opalus.stuffed_sorrowsquash_block": "碗装填脑南瓜",
+  "block.opalus.stuffed_sorrowsquash_block": "碗装填脑南瓜",
+  "creativetab.opalus_tab": "Opalus"
+}

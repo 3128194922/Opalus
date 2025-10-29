@@ -18,7 +18,7 @@ import java.util.List;
 
 public class CodexItem extends Item {
 
-    public CodexItem(Item.Properties properties) {
+    public CodexItem(Properties properties) {
         super(properties.stacksTo(1)); // Rarity handled dynamically below
     }
 

@@ -1,7 +1,6 @@
 package com.Uniye.Opalus.tabs;
 
 import com.Uniye.Opalus.Items.NETHEREXPItems;
-import com.Uniye.Opalus.Items.NETHEREXPblocks;
 import com.Uniye.Opalus.Items.QUARKItems;
 import com.Uniye.Opalus.Items.SAVAGE_AND_RAVAGEItems;
 import com.Uniye.Opalus.Opalus;
@@ -34,6 +33,7 @@ public class ModCreativeModTabs {
                             output.accept(NETHEREXPItems.STUFFED_SORROWSQUASH.get());
                             output.accept(NETHEREXPItems.ZOMBIE_BRAIN.get());
                             output.accept(NETHEREXPItems.STUFFED_SORROWSQUASH_BLOCK.get());
+                            output.accept(NETHEREXPItems.CHAINSWORD.get());
                         }
                         if(Opalus.QUARK)
                         {

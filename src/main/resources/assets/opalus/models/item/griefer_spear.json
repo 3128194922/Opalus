@@ -2,17 +2,17 @@
   "parent": "minecraft:item/handheld",
   "loader": "forge:separate_transforms",
   "textures": {
-    "layer0": "uniyesmod:item/griefer_spear_gui"
+    "layer0": "opalus:item/griefer_spear_gui"
   },
   "base": {
-    "parent": "uniyesmod:item/griefer_spear_handheld"
+    "parent": "opalus:item/griefer_spear_handheld"
   },
   "perspectives": {
     "gui": {
-      "parent": "uniyesmod:item/griefer_spear_gui"
+      "parent": "opalus:item/griefer_spear_gui"
     },
     "fixed": {
-      "parent": "uniyesmod:item/griefer_spear_gui"
+      "parent": "opalus:item/griefer_spear_gui"
     }
   }
 }
