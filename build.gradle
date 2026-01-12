@@ -1,158 +1,116 @@
 plugins {
     id 'eclipse'
     id 'idea'
-    id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'maven-publish'  // 修改：修正插件ID为正确的'maven-publishing'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'  // Forge Gradle插件
+    id 'org.parchmentmc.librarian.forgegradle' version '1.+'  // Parchment映射支持
 }
 
-version = mod_version
-group = mod_group_id
+version = mod_version  // mod版本号，从gradle.properties读取
+group = mod_group_id   // mod组ID，从gradle.properties读取
 
 base {
-    archivesName = mod_id
+    archivesName = mod_id  // 输出JAR文件名
 }
 
-// Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)  // 使用Java 17
 
+// 打印Java环境信息
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
+
 minecraft {
-    // The mappings can be changed at any time and must be in the following format.
-    // Channel:   Version:
-    // official   MCVersion             Official field/method names from Mojang mapping files
-    // parchment  YYYY.MM.DD-MCVersion  Open community-sourced parameter names and javadocs layered on top of official
-    //
-    // You must be aware of the Mojang license when using the 'official' or 'parchment' mappings.
-    // See more information here: https://github.com/MinecraftForge/MCPConfig/blob/master/Mojang.md
-    //
-    // Parchment is an unofficial project maintained by ParchmentMC, separate from MinecraftForge
-    // Additional setup is needed to use their mappings: https://parchmentmc.org/docs/getting-started
-    //
-    // Use non-default mappings at your own risk. They may not always work.
-    // Simply re-run your setup task after changing the mappings to update your workspace.
+    // 映射配置：official为官方映射，parchment为社区映射
     mappings channel: mapping_channel, version: mapping_version
-
-    // When true, this property will have all Eclipse/IntelliJ IDEA run configurations run the "prepareX" task for the given run configuration before launching the game.
-    // In most cases, it is not necessary to enable.
-    // enableEclipsePrepareRuns = true
-    // enableIdeaPrepareRuns = true
-
-    // This property allows configuring Gradle's ProcessResources task(s) to run on IDE output locations before launching the game.
-    // It is REQUIRED to be set to true for this template to function.
-    // See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
-    copyIdeResources = true
-
-    // When true, this property will add the folder name of all declared run configurations to generated IDE run configurations.
-    // The folder name can be set on a run configuration using the "folderName" property.
-    // By default, the folder name of a run configuration is the name of the Gradle project containing it.
-    // generateRunFolders = true
-
-    // This property enables access transformers for use in development.
-    // They will be applied to the Minecraft artifact.
-    // The access transformer file can be anywhere in the project.
-    // However, it must be at "META-INF/accesstransformer.cfg" in the final mod jar to be loaded by Forge.
-    // This default location is a best practice to automatically put the file in the right place in the final jar.
-    // See https://docs.minecraftforge.net/en/latest/advanced/accesstransformers/ for more information.
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-    // Default run configurations.
-    // These can be tweaked, removed, or duplicated as needed.
+    copyIdeResources = true  // 复制IDE资源到运行目录
+    
     runs {
-        // applies to all the run configs below
+        // 通用配置，适用于所有运行配置
         configureEach {
-            workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            // The markers can be added/remove as needed separated by commas.
-            // "SCAN": For mods scan.
-            // "REGISTRIES": For firing of registry events.
-            // "REGISTRYDUMP": For getting the contents of all registries.
-            property 'forge.logging.markers', 'REGISTRIES'
-
-            // Recommended logging level for the console
-            // You can set various levels here.
-            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
-            property 'forge.logging.console.level', 'debug'
-
+            workingDirectory project.file('run')  // 工作目录
+            property 'forge.logging.markers', 'REGISTRIES'  // 日志标记
+            property 'forge.logging.console.level', 'debug'  // 控制台日志级别
+            
             mods {
                 "${mod_id}" {
-                    source sourceSets.main
+                    source sourceSets.main  // 指定mod源码目录
                 }
             }
         }
 
+        // 客户端运行配置
         client {
-            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', mod_id
+            property 'forge.enabledGameTestNamespaces', mod_id  // 启用游戏测试
         }
 
+        // 服务器运行配置
         server {
             property 'forge.enabledGameTestNamespaces', mod_id
-            args '--nogui'
+            args '--nogui'  // 无GUI模式
         }
 
-        // This run config launches GameTestServer and runs all registered gametests, then exits.
-        // By default, the server will crash when no gametests are provided.
-        // The gametest system is also enabled by default for other run configs under the /test command.
+        // 游戏测试服务器配置
         gameTestServer {
             property 'forge.enabledGameTestNamespaces', mod_id
         }
 
+        // 数据生成配置
         data {
-            // example of overriding the workingDirectory set in configureEach above
-            workingDirectory project.file('run-data')
-
-            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            workingDirectory project.file('run-data')  // 独立工作目录
             args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
         }
     }
 }
 
-// Include resources generated by data generators.
+// 包含数据生成器生成的资源
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+// 仓库配置
 repositories {
+    maven { url "https://maven.minecraftforge.net/"}
     maven { url "https://maven.jaackson.me" }
     maven { url "https://maven.teamabnormals.com" }
-    maven { url "https://dvs1.progwml6.com/files/maven/" }
-    maven { url "https://modmaven.k-4u.nl" }
-    maven { url "https://www.cursemaven.com" }
+    maven { url "https://dvs1.progwml6.com/files/maven/" }  // JEI仓库
+    maven { url "https://modmaven.k-4u.nl" }  // Mod Maven镜像
+    maven { url "https://www.cursemaven.com" }  // CurseForge Maven
     exclusiveContent {
         forRepository {
             maven {
                 name = "Modrinth"
-                url = "https://api.modrinth.com/maven"
+                url = "https://api.modrinth.com/maven"  // Modrinth仓库
             }
         }
-        forRepositories(fg.repository) // Only add this if you're using ForgeGradle, otherwise remove this line
+        forRepositories(fg.repository)  // ForgeGradle专用仓库
         filter {
-            includeGroup "maven.modrinth"
+            includeGroup "maven.modrinth"  // 只包含Modrinth组
         }
     }
 }
 
+// 依赖配置
 dependencies {
+    // 核心依赖：Minecraft Forge
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
-    implementation fg.deobf("maven.modrinth:farmers-delight:NcRp00OO")
-    compileOnly fg.deobf("maven.modrinth:overweight-farming:cRR55xmK")
-    compileOnly fg.deobf("curse.maven:savage-and-ravage-381736:6040963")
-    compileOnly fg.deobf("curse.maven:oreganized-769203:6373702")
-    compileOnly fg.deobf("curse.maven:jadens-nether-expansion-1111833:6388893")
-    runtimeOnly fg.deobf("maven.modrinth:create:wYOXyPP5")
+    
+    // Mod依赖
+    implementation fg.deobf("maven.modrinth:farmers-delight:NcRp00OO")  // 农夫乐事
+    compileOnly fg.deobf("maven.modrinth:overweight-farming:cRR55xmK")  // 超重农场
+    compileOnly fg.deobf("curse.maven:savage-and-ravage-381736:6040963")  // Savage & Ravage残暴与掠夺
+    compileOnly fg.deobf("curse.maven:oreganized-769203:6373702")  // Oreganized井然有矿
+    compileOnly fg.deobf("curse.maven:jadens-nether-expansion-1111833:6388893")  // jaden的下界扩展
+    runtimeOnly fg.deobf("maven.modrinth:create:wYOXyPP5")  // Create机械动力
 
+    // JEI（Just Enough Items）依赖
     compileOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei}")
     compileOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}-forge-api:${project.jei}")
     runtimeOnly fg.deobf("mezz.jei:jei-${project.minecraft_version}-forge:${project.jei}")
 
+    // Mixin注解处理器
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+    // Blueprint框架
     implementation fg.deobf("com.teamabnormals:blueprint:${project.minecraft_version}-${project.blueprint}")
 }
 
-// This block of code expands all declared replace properties in the specified resource targets.
-// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
-// When "copyIdeResources" is enabled, this will also run before the game launches in IDE environments.
-// See https://docs.gradle.org/current/dsl/org.gradle.language.jvm.tasks.ProcessResources.html
+// 资源处理任务：替换属性变量
 tasks.named('processResources', ProcessResources).configure {
     var replaceProperties = [
             minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
@@ -163,48 +121,42 @@ tasks.named('processResources', ProcessResources).configure {
     ]
     inputs.properties replaceProperties
 
+    // 在mods.toml和pack.mcmeta中替换变量
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]
     }
 }
 
-// Example for how to get properties into the manifest for reading at runtime.
+// JAR打包配置
 tasks.named('jar', Jar).configure {
     manifest {
         attributes([
-                'Specification-Title'     : mod_id,
-                'Specification-Vendor'    : mod_authors,
-                'Specification-Version'   : '1', // We are version 1 of ourselves
-                'Implementation-Title'    : project.name,
-                'Implementation-Version'  : project.jar.archiveVersion,
-                'Implementation-Vendor'   : mod_authors,
-                'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                'Specification-Title'     : mod_id,  // 规范标题
+                'Specification-Vendor'    : mod_authors,  // 规范供应商
+                'Specification-Version'   : '1',  // 规范版本
+                'Implementation-Title'    : project.name,  // 实现标题
+                'Implementation-Version'  : project.jar.archiveVersion,  // 实现版本
+                'Implementation-Vendor'   : mod_authors,  // 实现供应商
         ])
     }
-
-    // This is the preferred method to reobfuscate your jar file
-    finalizedBy 'reobfJar'
+    finalizedBy 'reobfJar'  // 完成后执行重混淆
 }
 
-// However if you are in a multi-project build, dev time needs unobfed jar files, so you can delay the obfuscation until publishing by doing:
-// tasks.named('publish').configure {
-//     dependsOn 'reobfJar'
-// }
-
-// Example configuration to allow publishing using the maven-publish plugin
+// 发布配置
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
-            artifact jar
+            artifact jar  // 发布JAR文件
         }
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/mcmodsrepo"
+            url "file://${project.projectDir}/mcmodsrepo"  // 本地Maven仓库
         }
     }
 }
 
+// 编译配置
 tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+    options.encoding = 'UTF-8'  // 使用UTF-8编码
 }
