@@ -67,10 +67,10 @@ sourceSets.main.resources { srcDir 'src/generated/resources' }
 // 仓库配置
 repositories {
     maven { url "https://maven.minecraftforge.net/"}
-    maven { url "https://maven.jaackson.me" }
-    maven { url "https://maven.teamabnormals.com" }
-    maven { url "https://dvs1.progwml6.com/files/maven/" }  // JEI仓库
-    maven { url "https://modmaven.k-4u.nl" }  // Mod Maven镜像
+    // maven { url "https://maven.jaackson.me" }
+    // maven { url "https://maven.teamabnormals.com" }
+    maven { url "https://maven.blamejared.com/" }  // JEI仓库
+    maven { url "https://modmaven.dev" }  // Mod Maven镜像
     maven { url "https://www.cursemaven.com" }  // CurseForge Maven
     exclusiveContent {
         forRepository {
@@ -107,7 +107,8 @@ dependencies {
     // Mixin注解处理器
     annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
     // Blueprint框架
-    implementation fg.deobf("com.teamabnormals:blueprint:${project.minecraft_version}-${project.blueprint}")
+    // implementation fg.deobf("com.teamabnormals:blueprint:${project.minecraft_version}-${project.blueprint}")
+    implementation fg.deobf("curse.maven:blueprint-382216:4594238")
 }
 
 // 资源处理任务：替换属性变量

@@ -95,7 +95,10 @@ public class GrieferSpearItem extends SpearItem{
             boolean hasSPORES = false;
             for (ItemStack item : player.getInventory().items) {
                 if (item.getItem() == SRItems.CREEPER_SPORES.get()) {
-                    item.shrink(1);
+                    if(!((Player) user).isCreative())
+                    {
+                        item.shrink(1);
+                    }
                     hasSPORES = true;
                     break;
                 }
@@ -220,7 +223,7 @@ public class GrieferSpearItem extends SpearItem{
             for (LivingEntity entity : entities) {
                 entity.hurt(player.damageSources().playerAttack(player), 5.0F);
                 world.explode(
-                        null,
+                        player,
                         entity.getX(),
                         entity.getY(),
                         entity.getZ(),
